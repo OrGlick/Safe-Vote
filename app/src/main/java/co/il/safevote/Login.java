@@ -52,7 +52,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         btnConfirm.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View view)
     {
