@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FaceRecognitionActivity"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="410dp"
+        android:layout_height="219dp"
+        android:background="@drawable/face"
+        />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="כעת יש לצלם תמונה ברורה של פניכם. "
+        android:textSize="24sp"
+        android:textColor="@color/black"
+
+        />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="אנו מפקחים על אבטחת החשבון שלכם בצורה הקפדנית והגבוהה ביותר. "
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="זיהוי הפנים מאפשר לנו לדעת שמי שמנסה לקבל גישה לחשבון הוא אכן אתם ולא מישהו אחר."
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        />
+
+    <Button
+        android:id="@+id/btn_open_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="פתח את המצלמה"
+        android:layout_gravity="center"
+
+        />
+
+</LinearLayout>

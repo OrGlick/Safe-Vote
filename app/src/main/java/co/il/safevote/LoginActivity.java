@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Collections;
 import java.util.List;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     EditText etEmail, etPassword;
     Button btnConfirm;
     String email, password;
@@ -55,10 +55,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View view)
     {
-        if (view == btnConfirm)
+        email = etEmail.getText().toString();
+        password = etPassword.getText().toString();
+        if (view == btnConfirm && !email.equals("") && !password.equals(""))
         {
-            email = etEmail.getText().toString();
-            password = etPassword.getText().toString();
             removeSpacesFromTheEnd();
             if (isEmailAndPasswordValid())
             {
@@ -73,15 +73,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                     firebaseUser = auth.getCurrentUser();
                                     Log.d(tag, "login successful");
                                     Log.d(tag, "is email verified: "+firebaseUser.isEmailVerified());
-                                    sendEmailVerification();
-                                    // TODO: 01/06/2022 intent to azure face recognition activity,
-                                    //  and send the current user uid in the intent
+                                    Intent intentToWaiting = new Intent(LoginActivity.this, EmailVerificationWatingActivity.class);
+                                    startActivity(intentToWaiting);
+
+
                                 }
                                 else
                                 {
                                     Log.d(tag, "login failed, exception: "+task.getException());
                                     // TODO: 01/06/2022 show an error massage.
-                                    //  Store the amount of times this device has tried to login to prevent brute force
+                                    //  Store the amount of times this device had tried to login to prevent brute force
                                 }
                             }
                         });
@@ -92,40 +93,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private void removeSpacesFromTheEnd()
     {
-        if (password.charAt(password.length()-1) == ' ' && !password.equals(""))
+        if (password.charAt(password.length()-1) == ' ')
             password = password.substring(0, password.length()-1);
-        if (email.charAt(email.length()-1) == ' ' && !email.equals(""))
+        if (email.charAt(email.length()-1) == ' ')
             email = email.substring(0, email.length()-1);
     }
 
     private boolean isEmailAndPasswordValid()
     {
-        if (email.equals("") || password.equals(""))
-            return false;
+
 
 
         return true;
-    }
-
-
-    private void sendEmailVerification()
-    {
-        firebaseUser.sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener<Void>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<Void> task)
-            {
-                if(task.isSuccessful())
-                {
-                    Log.d(tag, "email verification sent");
-                    Log.d(tag, "is email verified: "+firebaseUser.isEmailVerified());
-
-                }
-                else
-                {
-                    Log.d(tag, "email verification wasn't sent");
-                }
-            }
-        });
     }
 }
