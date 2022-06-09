@@ -52,7 +52,6 @@
         android:layout_height="wrap_content"
         android:text="פתח את המצלמה"
         android:layout_gravity="center"
-
         />
 
 </LinearLayout>

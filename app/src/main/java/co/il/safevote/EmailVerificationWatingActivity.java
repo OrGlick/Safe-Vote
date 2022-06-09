@@ -46,25 +46,23 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
 
     private void sendEmailVerification()
     {
-        firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task)
+        if(firebaseUser.isEmailVerified())
+            moveToFaceRecognitionActivity();
+        else {
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
             {
-                if(task.isSuccessful())
-                {
-                    tvEmailVerification.setText("check");
-                    tvEmailVerification.setText("נשלח אליך אימייל לאימות. חזור לכאן לאחר שלחצת על הקישור שבגוף המייל. אם אינך מוצא את המייל חפש אותו בתיקיית הספאם.");
-                    if(firebaseUser.isEmailVerified())
-                        moveToFaceRecognitionActivity();
-                    else
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        tvEmailVerification.setText("check");
+                        tvEmailVerification.setText("נשלח אליך אימייל לאימות. חזור לכאן לאחר שלחצת על הקישור שבגוף המייל. אם אינך מוצא את המייל חפש אותו בתיקיית הספאם.");
                         waitForVerification();
+                    } else {
+                        tvEmailVerification.setText("התרחשה שגיאה בשליחת האימייל לאימות. אנא נסה שוב מאוחר יותר.");
+                    }
                 }
-                else
-                {
-                    tvEmailVerification.setText("התרחשה שגיאה בשליחת האימייל לאימות. אנא נסה שוב מאוחר יותר.");
-                }
-            }
-        });
+            });
+        }
     }
 
     private void waitForVerification()

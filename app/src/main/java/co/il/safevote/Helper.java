@@ -10,11 +10,13 @@ public class Helper
     public static final int ERROR_CODE = 400;
     public static final String PERSON_GROUP_ID = "group_id";
 
-    public static void showError(String message, Context context) {
+    public static void showError(String message, Context context)
+    {
         new AlertDialog.Builder(context)
                 .setTitle("Error")
                 .setMessage(message)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("בסדר", new DialogInterface.OnClickListener()
+                {
                     public void onClick(DialogInterface dialog, int id)
                     {
                         dialog.dismiss();
