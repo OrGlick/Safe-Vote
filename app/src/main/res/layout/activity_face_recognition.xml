@@ -22,11 +22,20 @@
         android:text="כעת יש לצלם תמונה ברורה של פניכם. "
         android:textSize="24sp"
         android:textColor="@color/black"
+        />
 
+    <Button
+        android:id="@+id/btn_open_camera"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:text="פתח את המצלמה"
+        android:textSize="17sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         />
 
     <TextView
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,24 +43,18 @@
         android:textSize="20sp"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:gravity="center"
         />
 
     <TextView
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="זיהוי הפנים מאפשר לנו לדעת שמי שמנסה לקבל גישה לחשבון הוא אכן אתם ולא מישהו אחר."
         android:textSize="20sp"
         android:textColor="@color/black"
-        />
-
-    <Button
-        android:id="@+id/btn_open_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="פתח את המצלמה"
-        android:layout_gravity="center"
+        android:gravity="center"
         />
 
 </LinearLayout>

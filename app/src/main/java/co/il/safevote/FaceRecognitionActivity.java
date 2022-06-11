@@ -10,7 +10,6 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,8 +24,6 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,6 +37,7 @@ import com.microsoft.projectoxford.face.contract.IdentifyResult;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 public class FaceRecognitionActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -47,6 +45,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
     SharedPreferences sp;
     SharedPreferences.Editor editor;
     boolean isGranted = false;
+    int countOfErrors;
     ActivityResultLauncher<Intent> activityResultLauncher;
     ProgressDialog progressDialog;
     Face[] faces;
@@ -76,9 +75,11 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Users");
+        databaseReference = firebaseDatabase.getReference("Users/"+firebaseUser.getUid());
         getCurrentUserFromRTDB(); // RTDB is realtime database
         handleImage();
+        progressDialog = new ProgressDialog(FaceRecognitionActivity.this);
+        countOfErrors = 6; // the user has only 3 chances to be identified
     }
 
     private void getCurrentUserFromRTDB()
@@ -121,16 +122,13 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
             @Override
             public void onActivityResult(ActivityResult result)
             {
-                progressDialog = new ProgressDialog(FaceRecognitionActivity.this);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-
                 //if everything is ok
                 if (result.getResultCode() == RESULT_OK && result.getData() != null)
                 {
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
                     ByteArrayInputStream inputStream = BitmapToOutputStream(bitmap);
-
                     Handler handler = new Handler(new Handler.Callback()
                     {
                         @Override
@@ -144,9 +142,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
                                 identify(faces);
                             }
                             else if (message.what == Helper.ERROR_CODE)
-                            {
                                 Helper.showError(String.valueOf(message.obj), FaceRecognitionActivity.this);
-                            }
                             return true;
                         }
                     });
@@ -186,57 +182,90 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
         }
     }
 
-    int count = 0; //the user has only 3 chances to be identified
+    // check how much faces where detected by Azure
+    private boolean isOnlyOneFaceDetected(Face[] faces)
+    {
+        if(countOfErrors > 1)
+        {
+            //no face detected
+            if (faces.length == 0)
+            {
+                countOfErrors--;
+                String error = "לא זוהו פנים. יש לך עוד " + countOfErrors +" ניסיונות, ולאחר הניסיון השישי תיחסם/י להצבעה מהאפליקציה. אנא נסה/י שוב";
+                Helper.showError(error, FaceRecognitionActivity.this);
+                return false;
+            }
+            else if(faces.length > 1) //more than 1 face detected
+            {
+                countOfErrors--;
+                String error = "אנא צלם/י רק אדם אחד. יש לך עוד " + countOfErrors +" ניסיונות, ולאחר הניסיון השישי תיחסם/י להצבעה מהאפליקציה. אנא נסה/י שוב";
+                Helper.showError(error, FaceRecognitionActivity.this);
+                return false;
+            }
+            //only 1 face detected. continue the process
+            return true;
+        }
+        else
+            blockUser();
+        return false;
+    }
+
     //check if the identified person is equals to the one saved on firebase
     private void isVerified(IdentifyResult[] identifyResults)
     {
-        if(identifyResults[0].candidates.get(0).personId.equals(userFromRTDB.azurePersonId))
+        if(somethingIdentified(identifyResults))
         {
-            //user identified successfully. move to voting activity
-            Intent intentToVotingActivity = new Intent(FaceRecognitionActivity.this, VotingActivity.class);
-            startActivity(intentToVotingActivity);
-        }
-        else
-        {
-            if(count <= 3)
+            if(identifyResults[0].candidates.get(0).personId.equals(UUID.fromString(userFromRTDB.getAzurePersonId())))
             {
-                //if it's the first error, it's just saying try again
-                if(count == 0)
-                {
-                    count++;
-                    Helper.showError("לא זוהית. אנא נס/י שוב", FaceRecognitionActivity.this);
-                }
-                else //if it's the second of third error, it's saying how much chances where left
-                {
-                    count++;
-                    Helper.showError(" ניסיונות. לאחר הניסיון השלישי תיחסם להצבעה מהאפליקציה" + count + "לא זוהית. יש לך עוד ", FaceRecognitionActivity.this);
-                }
-
+                //user identified successfully. moving to voting activity
+                Intent intentToVotingActivity = new Intent(FaceRecognitionActivity.this, VotingActivity.class);
+                startActivity(intentToVotingActivity);
             }
             else
+                handleTheErrors();
+        }
+        else
+            handleTheErrors();
+    }
+
+    //check if the face was identified
+    private boolean somethingIdentified(IdentifyResult[] identifyResults)
+    {
+        return identifyResults[0].candidates.size() != 0;
+    }
+
+    //handle the error, and block the user if needed
+    private void handleTheErrors()
+    {
+        if(countOfErrors != 0)
+        {
+            //if it's the first error, it's just saying try again
+            if(countOfErrors == 6)
             {
-                //block current user from voting
-                databaseReference.child(userFromRTDB.databaseKey).child("isBlocked").setValue(true);
-                //move to blocked activity
-                Intent intentToBlockedUsers = new Intent(FaceRecognitionActivity.this, BlockedUsersActivity.class);
-                startActivity(intentToBlockedUsers);
+                countOfErrors--;
+                Helper.showError("אין זיהוי. אנא נס/י שוב", FaceRecognitionActivity.this);
+            }
+            else //if it's not the first error, it's saying how much chances where left
+            {
+                countOfErrors--;
+                String error = "לא זוהית. יש לך עוד " + countOfErrors +" ניסיונות, ולאחר הניסיון השישי תיחסם/י להצבעה מהאפליקציה. אנא נסה/י שוב";
+                Helper.showError( error , FaceRecognitionActivity.this);
             }
         }
+        else
+            blockUser(); // block the user from voting
     }
 
-    private boolean isOnlyOneFaceDetected(Face[] faces)
+    //block current user from voting from any device
+    private void blockUser()
     {
-        if (faces.length == 0)
-        {
-            Helper.showError("לא זוהו פנים. אנא נסה/י שוב", FaceRecognitionActivity.this);
-        }
-        else if(faces.length > 1)
-        {
-            Helper.showError("אנא צלם/י רק אדם אחד", FaceRecognitionActivity.this);
-        }
-        return true;
+        databaseReference.child("isBlocked").setValue(true);
+        //move to blocked activity
+        Intent intentToBlockedUsers = new Intent(FaceRecognitionActivity.this, BlockedUsersActivity.class);
+        startActivity(intentToBlockedUsers);
     }
 
+    //convert the bitmap to ByteArrayInputStream
     private ByteArrayInputStream BitmapToOutputStream(Bitmap bitmap)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -281,19 +310,48 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
                 ActivityCompat.requestPermissions(FaceRecognitionActivity.this, new String[]{Manifest.permission.CAMERA}, 100);//מבקש הרשאה
                 editor.putBoolean("firstCheckPermission", true);
                 editor.commit();
-            } else {//אם זה כבר פעם שלישית מפנים את המשתמש להגדרות של האפליקציה
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);//הגדרת הintent להגדרות של האפליקציה
-                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-                intent.setData(uri);//הפניה להגדרות של האפליקציה הנוכחית
-                this.startActivity(intent);
+            }
+            else //אם זה כבר פעם שלישית מפנים את המשתמש להגדרות של האפליקציה
+            {
+                askTheUserToGoToSetting();
             }
         } else//יש הרשאה
             isGranted = true;
     }
 
+    //ask the user with a dialog to open the setting page of the app, so he can give the app the camera permission
+    private void askTheUserToGoToSetting()
+    {
+        new AlertDialog.Builder(this)
+                .setTitle("דרושה הרשאה")
+                .setMessage("על מנת לזהות את פניך נדרשת הרשאה למצלמה. בלעדיה לא תוכל להצביע")
+                .setPositiveButton("קח אותי להגדרות האפליקציה", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        dialogInterface.dismiss();
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);//הגדרת הintent להגדרות של האפליקציה
+                        Uri uri = Uri.fromParts("package", FaceRecognitionActivity.this.getPackageName(), null);
+                        intent.setData(uri);//הפניה להגדרות של האפליקציה הנוכחית
+                        FaceRecognitionActivity.this.startActivity(intent);
+                    }
+                })
+                .setNegativeButton("סגור", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create().show();
+    }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {//פעולה שמופעלת אחרי בקשת הרשאה
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {//פעולה שמופעלת אחרי בקשת הרשאה
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)//אם המשתמש אישר

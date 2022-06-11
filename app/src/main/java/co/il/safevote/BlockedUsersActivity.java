@@ -13,4 +13,9 @@ public class BlockedUsersActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blocked_users);
     }
+
+    //prevent the user from returning to the login activity
+    @Override
+    public void onBackPressed() {
+    }
 }

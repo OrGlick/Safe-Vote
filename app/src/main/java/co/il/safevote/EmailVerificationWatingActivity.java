@@ -48,13 +48,14 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
     {
         if(firebaseUser.isEmailVerified())
             moveToFaceRecognitionActivity();
-        else {
+        else
+        {
             firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
             {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        tvEmailVerification.setText("check");
+                    if (task.isSuccessful())
+                    {
                         tvEmailVerification.setText("נשלח אליך אימייל לאימות. חזור לכאן לאחר שלחצת על הקישור שבגוף המייל. אם אינך מוצא את המייל חפש אותו בתיקיית הספאם.");
                         waitForVerification();
                     } else {
@@ -77,13 +78,9 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
             public void onFinish() {
                 reload();
                 if(firebaseUser.isEmailVerified())
-                {
                     moveToFaceRecognitionActivity();
-                }
                 else
-                {
                     waitForVerification();
-                }
             }
         }.start();
     }
@@ -93,7 +90,6 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
         Intent intentToFaceRecognitionActivity = new Intent(EmailVerificationWatingActivity.this, FaceRecognitionActivity.class);
         startActivity(intentToFaceRecognitionActivity);
     }
-
 
     private void reload()
     {

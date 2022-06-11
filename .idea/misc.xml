@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/IMOE001/AndroidStudioProjects/SafeVote/app/src/main/res/layout/activity_blocked_users.xml" value="0.1796875" />
         <entry key="..\:/Users/IMOE001/AndroidStudioProjects/SafeVote/app/src/main/res/layout/activity_email_verification_wating.xml" value="0.1796875" />
         <entry key="..\:/Users/IMOE001/AndroidStudioProjects/SafeVote/app/src/main/res/layout/activity_face_recognition.xml" value="0.22" />
         <entry key="..\:/Users/IMOE001/AndroidStudioProjects/SafeVote/app/src/main/res/layout/activity_login.xml" value="0.1796875" />

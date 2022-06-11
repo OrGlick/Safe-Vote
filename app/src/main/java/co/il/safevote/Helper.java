@@ -13,7 +13,7 @@ public class Helper
     public static void showError(String message, Context context)
     {
         new AlertDialog.Builder(context)
-                .setTitle("Error")
+                .setTitle("שגיאה")
                 .setMessage(message)
                 .setPositiveButton("בסדר", new DialogInterface.OnClickListener()
                 {
