@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity
             {
                 init();
             }
-        }, 1500); //wait 1.5 seconds so the user will be able to see the animation,
+        }, 1500); // wait so the user will be able to see the animation if the internet is too fast (lol), and then connect to firebase server
     }
 
     private void init()
@@ -85,12 +85,12 @@ public class SplashActivity extends AppCompatActivity
         });
     }
 
-    // allow voting only between 07:00 - 22:00
+    // allow voting only between 07:00 - 20:00
     private boolean isVotingHours(int hour, int second)
     {
-        if(hour == 21)
+        if(hour == 19)
             return second <= 59;
-        return hour >= 7 && hour < 21;
+        return hour >= 7 && hour < 19;
     }
 
     // send notification to the user on the election day, at 07:00
