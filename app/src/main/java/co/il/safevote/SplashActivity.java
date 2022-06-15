@@ -85,12 +85,12 @@ public class SplashActivity extends AppCompatActivity
         });
     }
 
-    // allow voting only between 07:00 - 20:00
+    // allow voting only between 07:00 - 22:00
     private boolean isVotingHours(int hour, int second)
     {
-        if(hour == 19)
+        if(hour == 21)
             return second <= 59;
-        return hour >= 7 && hour < 19;
+        return hour >= 7 && hour < 21;
     }
 
     // send notification to the user on the election day, at 07:00
