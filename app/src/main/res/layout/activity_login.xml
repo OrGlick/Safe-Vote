@@ -34,7 +34,23 @@
         android:layout_gravity="center"
         />
 
+    <Button
+        android:id="@+id/button_select_id_date"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="בחר תאריך הנפקת תעודת זהות"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        />
 
+    <TextView
+        android:id="@+id/tv_show_selected_id_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        />
 
     <Button
         android:id="@+id/button_confirm_email_and_password"
@@ -44,5 +60,4 @@
         android:layout_gravity="center"
         android:text="אישור"
         />
-
 </LinearLayout>

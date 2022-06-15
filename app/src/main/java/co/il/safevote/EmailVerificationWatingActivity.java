@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class EmailVerificationWatingActivity extends AppCompatActivity
 {
-    TextView tvEmailVerification;
+    TextView firstTvEmailVerification, secondTvEmailVerification;
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
     String tag = "TAG1";
@@ -33,13 +33,14 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
         setContentView(R.layout.activity_email_verification_wating);
 
         inItFindViewById();
-        tvEmailVerification.setText("זוהית בהצלחה. ");
+        firstTvEmailVerification.setText("זוהית בהצלחה");
         sendEmailVerification();
     }
 
     private void inItFindViewById()
     {
-        tvEmailVerification = (TextView) findViewById(R.id.text_view_email_verification);
+        firstTvEmailVerification = findViewById(R.id.first_text_view_email_verification);
+        secondTvEmailVerification = findViewById(R.id.second_text_view_email_verification);
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
     }
@@ -56,10 +57,10 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful())
                     {
-                        tvEmailVerification.setText("נשלח אליך אימייל לאימות. חזור לכאן לאחר שלחצת על הקישור שבגוף המייל. אם אינך מוצא את המייל חפש אותו בתיקיית הספאם.");
+                        secondTvEmailVerification.setText("נשלח אליך אימייל לאימות, חזור לכאן לאחר שלחצת על הקישור שבגוף האימייל. אם אינך מוצא את האימייל חפש אותו בתיקיית הספאם.");
                         waitForVerification();
                     } else {
-                        tvEmailVerification.setText("התרחשה שגיאה בשליחת האימייל לאימות. אנא נסה שוב מאוחר יותר.");
+                        secondTvEmailVerification.setText("התרחשה שגיאה בשליחת האימייל לאימות. אנא נסה שוב מאוחר יותר.");
                     }
                 }
             });
@@ -93,14 +94,13 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
 
     private void reload()
     {
-        auth.getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
+        auth.getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>()
+        {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            public void onComplete(@NonNull Task<Void> task)
+            {
                 if(task.isSuccessful())
-                {
                     firebaseUser = auth.getCurrentUser();
-                    Log.d(tag, "is verified: "+firebaseUser.isEmailVerified());
-                }
             }
         });
     }

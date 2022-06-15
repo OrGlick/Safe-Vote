@@ -39,6 +39,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+import co.il.safevote.Threards.DetectThread;
+import co.il.safevote.Threards.IdentifyThread;
+
 public class FaceRecognitionActivity extends AppCompatActivity implements View.OnClickListener
 {
     Button btnOpenCamera;
@@ -126,6 +129,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
                 if (result.getResultCode() == RESULT_OK && result.getData() != null)
                 {
                     progressDialog.setCancelable(false);
+                    progressDialog.setMessage("מזהה...");
                     progressDialog.show();
                     Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
                     ByteArrayInputStream inputStream = BitmapToOutputStream(bitmap);

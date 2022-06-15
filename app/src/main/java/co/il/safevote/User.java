@@ -2,48 +2,19 @@ package co.il.safevote;
 
 public class User
 {
-    public String databaseKey;
-    public String firebaseUid;
-    public String nameFromFirebase;
     public String azurePersonId;
     public boolean isVoted;
     public boolean isBlocked;
 
-    public User(String databaseKey, String firebaseUid, String nameFromFirebase, String azurePersonId, boolean isVoted, boolean isBlocked)
+    public User() {
+        //required
+    }
+
+    public User(String nameFromFirebase, String azurePersonId)
     {
-        this.databaseKey = databaseKey;
-        this.firebaseUid = firebaseUid;
-        this.nameFromFirebase = nameFromFirebase;
         this.azurePersonId = azurePersonId;
-        this.isVoted = isVoted;
-        this.isBlocked = isBlocked;
-    }
-
-    public User()
-    {}//required
-
-    public String getDatabaseKey() {
-        return databaseKey;
-    }
-
-    public void setDatabaseKey(String databaseKey) {
-        this.databaseKey = databaseKey;
-    }
-
-    public String getFirebaseUid() {
-        return firebaseUid;
-    }
-
-    public void setFirebaseUid(String firebaseUid) {
-        this.firebaseUid = firebaseUid;
-    }
-
-    public String getNameFromFirebase() {
-        return nameFromFirebase;
-    }
-
-    public void setNameFromFirebase(String nameFromFirebase) {
-        this.nameFromFirebase = nameFromFirebase;
+        this.isVoted = false;
+        this.isBlocked = false;
     }
 
     public String getAzurePersonId() {
@@ -54,19 +25,19 @@ public class User
         this.azurePersonId = azurePersonId;
     }
 
-    public boolean isVoted() {
-        return isVoted;
+    public boolean getIsVoted() {
+        return this.isVoted;
     }
 
-    public void setVoted(boolean voted) {
-        isVoted = voted;
+    public void setIsVoted(boolean isVoted) {
+        this.isVoted = isVoted;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
+    public boolean getIsBlocked() {
+        return this.isBlocked;
     }
 
-    public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
+    public void setIsBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
     }
 }

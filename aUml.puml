@@ -1,0 +1,173 @@
+@startuml
+class co.il.safevote.VotingActivity {
+~ ImageButton btnSheker
+~ FirebaseDatabase firebaseDatabase
+~ DatabaseReference shekerReference
+~ FirebaseAuth firebaseAuth
+~ FirebaseUser firebaseUser
+~ User userFromRTDB
+~ ProgressDialog progressDialog
+# void onCreate(Bundle)
+- void initFindViewByIdAndOthers()
+- void initFirebasePartiesConfig()
+- void initFirebaseUserConfig()
++ void onClick(View)
+- void shouldSubmitVoting(String,DatabaseReference)
+- void backToLogin()
+- void blankVote()
+}
+class co.il.safevote.IdentifyThread {
+~ Handler handler
+~ Face[] faces
+~ FaceServiceClient faceServiceClient
++ <<Create>> IdentifyThread(Handler,Face[])
++ void run()
+}
+class co.il.safevote.EmailVerificationWatingActivity {
+~ TextView firstTvEmailVerification
+- FirebaseAuth auth
+- FirebaseUser firebaseUser
+~ String tag
+# void onCreate(Bundle)
+- void inItFindViewById()
+- void sendEmailVerification()
+- void waitForVerification()
+- void moveToFaceRecognitionActivity()
+- void reload()
+}
+class co.il.safevote.User {
++ String azurePersonId
++ boolean isVoted
++ boolean isBlocked
++ <<Create>> User()
++ <<Create>> User(String,String)
++ String getAzurePersonId()
++ void setAzurePersonId(String)
++ boolean getIsVoted()
++ void setIsVoted(boolean)
++ boolean getIsBlocked()
++ void setIsBlocked(boolean)
+}
+class co.il.safevote.LoginActivity {
+~ EditText etEmail
+~ TextView tvShowSelectedDate
+~ Button btnConfirm
+~ String email
+~ DatePickerDialog datePickerDialog
+- FirebaseAuth auth
+- FirebaseUser firebaseUser
+~ FirebaseDatabase firebaseDatabase
+~ DatabaseReference databaseReference
+~ User userFromRTDB
+~ ProgressDialog progressDialog
+# void onCreate(Bundle)
+- void inIt()
+- void initDatePickerDialog()
+- String makeDateString(int,int,int)
+- void welcomeVoter()
++ void onClick(View)
+- void showErrorAndCloseProgressDialog()
+- void checkUserVotingState()
+- void removeSpacesFromTheEnd()
+- boolean isEmailValid(String)
+- boolean isIdValid(String)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(MenuItem)
+- void intentToEmailApp()
+- void openAboutActivity()
++ void onBackPressed()
+}
+class co.il.safevote.DetectThread {
+~ Handler handler
+~ ByteArrayInputStream byteArrayInputStream
+~ FaceServiceClient faceServiceClient
++ <<Create>> DetectThread(Handler,ByteArrayInputStream)
++ void run()
+}
+class co.il.safevote.FaceRecognitionActivity {
+~ Button btnOpenCamera
+~ SharedPreferences sp
+~ SharedPreferences.Editor editor
+~ boolean isGranted
+~ int countOfErrors
+~ ActivityResultLauncher<Intent> activityResultLauncher
+~ ProgressDialog progressDialog
+~ Face[] faces
+~ FirebaseAuth auth
+~ FirebaseUser firebaseUser
+~ FirebaseDatabase firebaseDatabase
+~ DatabaseReference databaseReference
+~ User userFromRTDB
+# void onCreate(Bundle)
+- void init()
+- void getCurrentUserFromRTDB()
++ void onClick(View)
+- void takePicture()
+- void handleImage()
+- void identify(Face[])
+- boolean isOnlyOneFaceDetected(Face[])
+- void isVerified(IdentifyResult[])
+- boolean somethingIdentified(IdentifyResult[])
+- void handleTheErrors()
+- void blockUser()
+- ByteArrayInputStream BitmapToOutputStream(Bitmap)
++ void dialog()
++ void permission()
+- void askTheUserToGoToSetting()
++ void onRequestPermissionsResult(int,String[],int[])
+}
+class co.il.safevote.AboutActivity {
+# void onCreate(Bundle)
+}
+class co.il.safevote.Helper {
++ {static} int SUCCESS_CODE
++ {static} int ERROR_CODE
++ {static} String PERSON_GROUP_ID
++ {static} void showError(String,Context)
+}
+class co.il.safevote.MainActivity {
+~ FirebaseDatabase firebaseDatabase
+~ DatabaseReference databaseReference
+~ String electionDateFromRTDB
+~ Calendar calendar
+~ String currentDate
+~ ProgressDialog progressDialog
+# void onCreate(Bundle)
+- void init()
+- boolean isVotingHours(int,int)
+- void notificationElectionTime(int,int,int)
+- String makeDateString(int,int,int)
+}
+class co.il.safevote.BlockedUsersActivity {
+# void onCreate(Bundle)
++ void onBackPressed()
+}
+class co.il.safevote.AzureCreds {
+- String endPoint
+- String apiKey
++ <<Create>> AzureCreds(String,String)
++ <<Create>> AzureCreds()
++ String getEndPoint()
++ String getApiKey()
++ void setEndPoint(String)
++ void setApiKey(String)
+}
+class co.il.safevote.NotificationReceiver {
++ void onReceive(Context,Intent)
+}
+
+
+co.il.safevote.OnClickListener <|.. co.il.safevote.VotingActivity
+androidx.appcompat.app.AppCompatActivity <|-- co.il.safevote.VotingActivity
+co.il.safevote.Thread <|-- co.il.safevote.IdentifyThread
+androidx.appcompat.app.AppCompatActivity <|-- co.il.safevote.EmailVerificationWatingActivity
+co.il.safevote.OnClickListener <|.. co.il.safevote.LoginActivity
+androidx.appcompat.app.AppCompatActivity <|-- co.il.safevote.LoginActivity
+co.il.safevote.Thread <|-- co.il.safevote.DetectThread
+co.il.safevote.OnClickListener <|.. co.il.safevote.FaceRecognitionActivity
+androidx.appcompat.app.AppCompatActivity <|-- co.il.safevote.FaceRecognitionActivity
+androidx.appcompat.app.AppCompatActivity <|-- co.il.safevote.AboutActivity
+androidx.appcompat.app.AppCompatActivity <|-- co.il.safevote.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- co.il.safevote.BlockedUsersActivity
+android.content.BroadcastReceiver <|-- co.il.safevote.NotificationReceiver
+@enduml

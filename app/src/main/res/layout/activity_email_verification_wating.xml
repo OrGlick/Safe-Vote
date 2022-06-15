@@ -5,17 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EmailVerificationWatingActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#C1C9E3">
 
     <TextView
-        android:id="@+id/text_view_email_verification"
+        android:id="@+id/first_text_view_email_verification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="300dp"
-        android:text="check"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:gravity="center"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/second_text_view_email_verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@color/black"
         />
 
 </LinearLayout>

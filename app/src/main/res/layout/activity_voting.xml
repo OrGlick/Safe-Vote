@@ -8,11 +8,163 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="welcome to voting activty"
-        android:textSize="40sp"
-        android:layout_marginTop="200dp"
+        android:text="ברוכ/ה הבא/ה לקלפי!"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="עליך לבחור מפלגה. "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="זכור! לאחר הבחירה, לא ניתן לשנותה "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:background="#C1299ACD"
+        android:padding="5dp"
+        >
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="5dp"
+            >
+            <ImageButton
+                android:id="@+id/btn_sheker"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:background="@drawable/sheker"
+                android:layout_marginStart="5dp"
+                />
+            <ImageButton
+                android:id="@+id/btn_raka"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/itzik"
+                />
+            <ImageButton
+                android:id="@+id/btn_hetz"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/hetz"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            >
+            <ImageButton
+                android:id="@+id/btn_blank"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:background="@drawable/blank"
+                android:layout_marginStart="5dp"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_maki"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/mercaz" />
+
+            <ImageButton
+                android:id="@+id/btn_eretz"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/eretz"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            >
+            <ImageButton
+                android:id="@+id/btn_shabas"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:background="@drawable/shabas"
+                android:layout_marginStart="5dp"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_mahapach"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/mahapach" />
+
+            <ImageButton
+                android:id="@+id/btn_sevev"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/sviva"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp">
+            <ImageButton
+                android:id="@+id/btn_israel"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:background="@drawable/isreal"
+                android:layout_marginStart="5dp"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_hazakim"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/hazakim"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/btn_achva"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/achva"
+                />
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>
