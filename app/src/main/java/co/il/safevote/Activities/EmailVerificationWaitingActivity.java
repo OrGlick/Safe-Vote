@@ -1,4 +1,4 @@
-package co.il.safevote;
+package co.il.safevote.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,25 +6,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import co.il.safevote.R;
 
-public class EmailVerificationWatingActivity extends AppCompatActivity
+
+public class EmailVerificationWaitingActivity extends AppCompatActivity
 {
     TextView firstTvEmailVerification, secondTvEmailVerification;
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
-    String tag = "TAG1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,6 +28,7 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_verification_wating);
 
+        getSupportActionBar().hide(); // remove action bar
         inItFindViewById();
         firstTvEmailVerification.setText("זוהית בהצלחה");
         sendEmailVerification();
@@ -72,7 +69,7 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
         new CountDownTimer(1000, 1000) {
             @Override
             public void onTick(long l) {
-                Log.d(tag, "tik");
+
             }
 
             @Override
@@ -88,7 +85,7 @@ public class EmailVerificationWatingActivity extends AppCompatActivity
 
     private void moveToFaceRecognitionActivity()
     {
-        Intent intentToFaceRecognitionActivity = new Intent(EmailVerificationWatingActivity.this, FaceRecognitionActivity.class);
+        Intent intentToFaceRecognitionActivity = new Intent(EmailVerificationWaitingActivity.this, FaceRecognitionActivity.class);
         startActivity(intentToFaceRecognitionActivity);
     }
 

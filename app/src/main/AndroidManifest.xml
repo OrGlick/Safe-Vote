@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SafeVote">
         <activity
-            android:name=".SplashActivity"
+            android:name=".Activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,25 +24,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name=".Activities.AboutActivity"
             android:exported="false" />
         <activity
-            android:name=".VotingActivity"
+            android:name=".Activities.VotingActivity"
             android:exported="false" />
         <activity
-            android:name=".BlockedUsersActivity"
+            android:name=".Activities.BlockedUsersActivity"
             android:exported="false" />
         <activity
-            android:name=".FaceRecognitionActivity"
+            android:name=".Activities.FaceRecognitionActivity"
             android:exported="false" />
         <activity
-            android:name=".EmailVerificationWatingActivity"
+            android:name=".Activities.EmailVerificationWaitingActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true">
         </activity>
 

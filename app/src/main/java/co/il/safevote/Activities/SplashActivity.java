@@ -1,12 +1,10 @@
-package co.il.safevote;
+package co.il.safevote.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+
+import co.il.safevote.NotificationReceiver;
+import co.il.safevote.R;
 
 public class SplashActivity extends AppCompatActivity
 {
@@ -56,7 +57,6 @@ public class SplashActivity extends AppCompatActivity
                 int dayFromRTDB = snapshot.child("day").getValue(Integer.class);
                 int monthFromRTDB = snapshot.child("month").getValue(Integer.class);
                 int yearFromRTDB = snapshot.child("year").getValue(Integer.class);
-                notificationElectionTime(dayFromRTDB, monthFromRTDB, yearFromRTDB);
 
                 String electionDateFromRTDB = makeDateString(yearFromRTDB, monthFromRTDB, dayFromRTDB);
 
@@ -73,6 +73,7 @@ public class SplashActivity extends AppCompatActivity
                     intent.putExtra("state", "can vote");
                 else
                 {
+                    notificationElectionTime(dayFromRTDB, monthFromRTDB, yearFromRTDB); // I don't want to show the notification if it's the election time and the user is already in the app
                     intent.putExtra("elections date", electionDateFromRTDB);
                     intent.putExtra("state", "can not vote");
                 }

@@ -1,4 +1,4 @@
-package co.il.safevote;
+package co.il.safevote.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +33,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
+import co.il.safevote.Helper;
+import co.il.safevote.R;
+import co.il.safevote.User;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
     EditText etEmail, etPassword;
@@ -53,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         auth  = FirebaseAuth.getInstance();
         auth.signOut();
         inIt();
@@ -204,7 +209,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else // if everything is ok
                 {
                     //move to the email verification activity
-                    Intent intent = new Intent(LoginActivity.this, EmailVerificationWatingActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, EmailVerificationWaitingActivity.class);
                     startActivity(intent);
                 }
             }

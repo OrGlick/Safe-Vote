@@ -1,7 +1,5 @@
 package co.il.safevote;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
+
+import co.il.safevote.Activities.LoginActivity;
 
 public class NotificationReceiver extends BroadcastReceiver
 {

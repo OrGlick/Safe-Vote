@@ -1,4 +1,4 @@
-package co.il.safevote;
+package co.il.safevote.Activities;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -39,8 +39,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+import co.il.safevote.Helper;
+import co.il.safevote.R;
 import co.il.safevote.Threards.DetectThread;
 import co.il.safevote.Threards.IdentifyThread;
+import co.il.safevote.User;
 
 public class FaceRecognitionActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -65,6 +68,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_recognition);
 
+        getSupportActionBar().hide(); // remove action bar
         init();
     }
 

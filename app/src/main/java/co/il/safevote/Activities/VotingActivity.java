@@ -1,4 +1,4 @@
-package co.il.safevote;
+package co.il.safevote.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +19,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+
+import co.il.safevote.Helper;
+import co.il.safevote.R;
+import co.il.safevote.User;
 
 public class VotingActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton btnSheker, btnRaka, btnHetz, btnBlank, btnMaki, btnEretz, btnShabas, btnMahapch, btnSevev, btnIsrael, btnHazakim, btnAchva;
@@ -39,6 +42,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voting);
 
+        getSupportActionBar().hide(); // remove action bar
         initFindViewByIdAndOthers();
         initFirebasePartiesConfig();
         initFirebaseUserConfig();
