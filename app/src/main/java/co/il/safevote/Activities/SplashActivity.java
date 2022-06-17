@@ -40,12 +40,12 @@ public class SplashActivity extends AppCompatActivity
             @Override
             public void run()
             {
-                init();
+                checkTime();
             }
         }, 1500); // wait so the user will be able to see the animation if the internet is too fast (lol), and then connect to firebase server
     }
 
-    private void init()
+    private void checkTime()
     {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Date For Elections");
