@@ -52,15 +52,15 @@ public class SplashActivity extends AppCompatActivity
         databaseReference.addValueEventListener(new ValueEventListener()
         {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
+            public void onDataChange(@NonNull DataSnapshot snapshot) // get the data from Firebase
             {
                 int dayFromRTDB = snapshot.child("day").getValue(Integer.class);
                 int monthFromRTDB = snapshot.child("month").getValue(Integer.class);
                 int yearFromRTDB = snapshot.child("year").getValue(Integer.class);
 
-                String electionDateFromRTDB = makeDateString(yearFromRTDB, monthFromRTDB, dayFromRTDB);
+                String electionDateFromRTDB = makeDateString(yearFromRTDB, monthFromRTDB, dayFromRTDB); //convert the date from String to int
 
-                calendar = Calendar.getInstance();
+                calendar = Calendar.getInstance(); //get the current date
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1;
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -69,7 +69,7 @@ public class SplashActivity extends AppCompatActivity
 
                 String currentDate = makeDateString(year, month, day);
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                if(currentDate.equals(electionDateFromRTDB) && isVotingHours(hour, second))
+                if(currentDate.equals(electionDateFromRTDB) && isVotingHours(hour, second)) // if it's the elections time
                     intent.putExtra("state", "can vote");
                 else
                 {
@@ -77,7 +77,7 @@ public class SplashActivity extends AppCompatActivity
                     intent.putExtra("elections date", electionDateFromRTDB);
                     intent.putExtra("state", "can not vote");
                 }
-                startActivity(intent);
+                startActivity(intent); // move to Main Activity
             }
 
             @Override
@@ -112,6 +112,7 @@ public class SplashActivity extends AppCompatActivity
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
+    // convert the date from integers to String in date format
     private String makeDateString(int year, int month, int day)
     {
         return day + "." + month + "." + year;

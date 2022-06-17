@@ -21,12 +21,11 @@ public class MainActivity extends AppCompatActivity
         handleIntent();
     }
 
-    private void handleIntent()
+    private void handleIntent() //move or stay in the activity as a result of the intent
     {
-        Intent intent = getIntent();
+        Intent intent = getIntent(); //get the intent from Splash Activity
         String state = intent.getStringExtra("state");
 
-        Intent intent1;
         if(state.equals("can vote"))
         {
             // it's elections time. move to login activity

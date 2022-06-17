@@ -45,8 +45,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String email, id, idDate;
     DatePickerDialog datePickerDialog;
 
-    private FirebaseAuth auth;
-    private FirebaseUser firebaseUser;
+    FirebaseAuth auth;
+    FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     User userFromRTDB;
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         welcomeVoter();
     }
 
-    private void inIt()
+    private void inIt() //config all things
     {
         etEmail = findViewById(R.id.edit_text_email);
         etPassword = findViewById(R.id.edit_text_password);
@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.setMessage("מאמת...");
     }
 
+    //show the date picker dialog
     private void initDatePickerDialog()
     {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
@@ -101,6 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
 
+    //convert the date to String with date format
     private String makeDateString(int year, int month, int day)
     {
         String day1 = String.valueOf(day);
@@ -109,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return day1 + "." + month1 + "." + year1;
     }
 
+    //show a dialog to the user who voted and came to here from Voting Activity
     private void welcomeVoter()
     {
         Intent intent = getIntent();
@@ -141,13 +144,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             progressDialog.show();
             email = etEmail.getText().toString();
             id = etPassword.getText().toString();
-            if (view == btnConfirm && !email.equals("") && !id.equals("") && !idDate.equals(""))
+            if (view == btnConfirm && !email.equals("") && !id.equals("") && !idDate.equals("")) //if not null
             {
-                removeSpacesFromTheEnd();
-                if (isEmailValid(email) && isIdValid(id))
+                removeSpaceFromTheEnd();
+                if (isEmailValid(email) && isIdValid(id)) //check validation of the email and the ID
                 {
                     String pass = id + idDate;
-                    auth.signInWithEmailAndPassword(email, pass)
+                    auth.signInWithEmailAndPassword(email, pass) //sign in
                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
                             {
                                 @Override
@@ -177,12 +180,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             datePickerDialog.show();
     }
 
+    //show errors on alert dialog
     private void showErrorAndCloseProgressDialog()
     {
         progressDialog.dismiss();
         Helper.showError("אנא הכנס/י אימייל ותעודת זהות תקינים", LoginActivity.this);
     }
 
+    //check if the user already voted or blocked
     private void checkUserVotingState()
     {
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -221,7 +226,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void removeSpacesFromTheEnd()
+    //remove space from the end of the email
+    private void removeSpaceFromTheEnd()
     {
         if (id.charAt(id.length()-1) == ' ')
             id = id.substring(0, id.length()-1);
@@ -229,7 +235,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             email = email.substring(0, email.length()-1);
     }
 
-    // פונקציה שבודקת את תקינות האימייל
+    //check if the email is in the format of "a@a.com"
     private boolean isEmailValid(String email)
     {
         char c;
@@ -272,6 +278,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return false;
     }
 
+    //the id is valid if it's 9 characters
     private boolean isIdValid(String id)
     {
         return id.length() == 9;
@@ -286,6 +293,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
+    //menu button's
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -303,7 +311,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    //contect us via email
+    //contact me via email
     private void intentToEmailApp()
     {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
