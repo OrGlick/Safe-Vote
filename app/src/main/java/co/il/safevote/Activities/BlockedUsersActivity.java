@@ -15,7 +15,7 @@ public class BlockedUsersActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blocked_users);
 
-        getSupportActionBar().hide(); // remove action bar
+        getSupportActionBar().hide(); // remove the action bar
     }
 
     //prevent the user from returning to the login activity

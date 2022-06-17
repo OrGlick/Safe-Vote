@@ -19,8 +19,8 @@ import co.il.safevote.R;
 public class EmailVerificationWaitingActivity extends AppCompatActivity
 {
     TextView firstTvEmailVerification, secondTvEmailVerification;
-    private FirebaseAuth auth;
-    private FirebaseUser firebaseUser;
+    FirebaseAuth auth;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

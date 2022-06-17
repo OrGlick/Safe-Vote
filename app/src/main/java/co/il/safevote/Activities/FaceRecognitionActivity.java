@@ -136,7 +136,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
                     progressDialog.setMessage("מזהה...");
                     progressDialog.show();
                     Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
-                    ByteArrayInputStream inputStream = BitmapToOutputStream(bitmap);
+                    ByteArrayInputStream inputStream = bitmapToInputStream(bitmap);
                     Handler handler = new Handler(new Handler.Callback()
                     {
                         @Override
@@ -274,7 +274,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
     }
 
     //convert the bitmap to ByteArrayInputStream
-    private ByteArrayInputStream BitmapToOutputStream(Bitmap bitmap)
+    private ByteArrayInputStream bitmapToInputStream(Bitmap bitmap)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream);
