@@ -109,7 +109,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
 
     public void onClick(View v)
     {
-        permission();//בקשת הרשאה
+        askForPermission();//בקשת הרשאה
         if (isGranted)
             takePicture();
     }
@@ -282,7 +282,7 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
     }
 
 
-    public void dialog()//בונה את הדיאלוג אם המשתמש לא נתן הרשאה ומנסה עוד פעם לשלוח הודעה
+    public void permissionNeededDialog()//בונה את הדיאלוג אם המשתמש לא נתן הרשאה ומנסה עוד פעם לשלוח הודעה
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("על מנת להזדהות, יש לאשר הרשאה למצלמה");//הסבר למשתמש
@@ -310,10 +310,11 @@ public class FaceRecognitionActivity extends AppCompatActivity implements View.O
         alertDialog.show();//מציד את הדיאלוג
     }
 
-    public void permission() {//פעולה שמטפלת בהרשאה
+    public void askForPermission()
+    {//פעולה שמטפלת בהרשאה
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {//אם אין הרשאה
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))//אם זה פעם שניה שמבקשים הרשאה
-                dialog();
+                permissionNeededDialog();
             else if (!sp.getBoolean("firstCheckPermission", false)) {//אחרת אם זה פעם ראשונה שמבקשים הרשאה
                 ActivityCompat.requestPermissions(FaceRecognitionActivity.this, new String[]{Manifest.permission.CAMERA}, 100);//מבקש הרשאה
                 editor.putBoolean("firstCheckPermission", true);

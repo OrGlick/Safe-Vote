@@ -146,7 +146,7 @@ public class VotingActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    // asks the user if he approves his vote, and if yes vote
+    // asks the user if he approves his vote, and if yes send it to firebase
     private void shouldSubmitVoting(String partyName, DatabaseReference referenceToVoting)
     {
         char c = '"';
