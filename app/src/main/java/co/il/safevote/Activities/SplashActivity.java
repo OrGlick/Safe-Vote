@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity
             {
                 checkTime();
             }
-        }, 1500); // wait so the user will be able to see the animation if the internet is too fast (lol), and then connect to firebase server
+        }, 1500); // wait so the user will be able to see the animation if the internet speed is too fast (lol), and then connect to firebase server
     }
 
     private void checkTime()
@@ -73,7 +73,8 @@ public class SplashActivity extends AppCompatActivity
                     intent.putExtra("state", "can vote");
                 else
                 {
-                    notificationElectionTime(dayFromRTDB, monthFromRTDB, yearFromRTDB); // I don't want to show the notification if it's the election time and the user is already in the app
+                    if(year < yearFromRTDB && month < monthFromRTDB && day < dayFromRTDB)// I want to show the notification only before the election time
+                        notificationElectionTime(dayFromRTDB, monthFromRTDB, yearFromRTDB);
                     intent.putExtra("elections date", electionDateFromRTDB);
                     intent.putExtra("state", "can not vote");
                 }
